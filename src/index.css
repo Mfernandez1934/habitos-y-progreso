@@ -1,68 +1,737 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* --------- GLOBAL --------- */
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #050816;
+    color: #f7f7ff;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+/* --------- HEADER (más fino) --------- */
+
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: rgba(5, 5, 15, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    min-height: 48px;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.app-header .logo {
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    padding: 0;
+}
+
+.nav {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #c2c2ff;
+    font-size: 0.9rem;
+    padding: 6px 10px;
+}
+
+.nav-link.active {
+    color: #ffffff;
+    font-weight: 600;
+    border-bottom: 2px solid #7c5cff;
+}
+
+.app-main {
+    flex: 1;
+    padding: 24px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* --------- WELCOME SCREEN --------- */
+
+.welcome-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+    margin-top: 40px;
+}
+
+.welcome-title {
+    font-size: 2.4rem;
+}
+
+.welcome-subtitle {
+    color: #c7c7ff;
+}
+
+.welcome-message-bar {
+    margin-top: 16px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: rgba(124, 92, 255, 0.12);
+    border: 1px solid rgba(124, 92, 255, 0.4);
+}
+
+.welcome-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome-footer {
+    margin-top: 24px;
+    opacity: 0.7;
+}
+
+/* --------- BOTONES --------- */
+
+.big-button,
+.primary-button,
+.secondary-link,
+.btn {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.big-button {
+    min-width: 220px;
+    margin: 6px 0;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.04);
+    color: #ffffff;
+}
+
+.big-button.primary {
+    background: linear-gradient(135deg, #7c5cff, #ff7ac7);
+}
+
+.big-button.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+}
+
+.primary-button {
+    background: linear-gradient(135deg, #7c5cff, #ff7ac7);
+    color: #ffffff;
+}
+
+.secondary-link {
+    background: transparent;
+    color: #c2c2ff;
+}
+
+.btn-complete {
+    background: #2ecc71;
+    color: #050816;
+}
+
+.btn-skip {
+    background: #e74c3c;
+    color: #ffffff;
+}
+
+/* --------- HABIT CARDS --------- */
+
+.habit-link-wrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.habit-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.habit-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.habit-title {
+    margin: 0;
+}
+
+.habit-category {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #a4a4ff;
+}
+
+.habit-status {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+}
+
+.habit-status-pending {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.habit-status-completed {
+    background: rgba(46, 204, 113, 0.2);
+}
+
+.habit-status-skipped {
+    background: rgba(231, 76, 60, 0.2);
+}
+
+.habit-description {
+    font-size: 0.9rem;
+    margin-top: 8px;
+}
+
+.habit-progress {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.habit-progress-bar {
+    flex: 1;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.habit-progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c5cff, #ff7ac7);
+}
+
+.habit-progress-label {
+    font-size: 0.8rem;
+}
+
+.habit-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+/* --------- LISTA DE HÁBITOS EN GRID (3 columnas desktop) --------- */
+
+.habits-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+    align-items: stretch;
+}
+
+/* Tablet: 2 columnas */
+@media (max-width: 1024px) {
+    .habits-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Móvil: 1 columna */
+@media (max-width: 640px) {
+    .habits-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --------- DASHBOARD GENERAL --------- */
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* HERO (violeta grande) */
+
+.dashboard-hero {
+    display: flex;
+    align-items: stretch;
+    padding: 20px 24px;
+    border-radius: 20px;
+    background: radial-gradient(circle at top left, #1c1440, #050816);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Como sacamos el bloque izquierdo, el right ocupa todo el ancho */
+.dashboard-hero-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* El bloque “celeste” (fecha + tarjeta) ahora es ancho */
+.level-card-wrapper-wide {
+    width: min(1150px, 95vw);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Fecha centrada respecto del bloque ancho */
+.level-card-wrapper-wide .dashboard-date {
+    margin: 0;
+    text-transform: capitalize;
+    font-size: 0.9rem;
+    color: #b3b3ff;
+    text-align: center;
+    width: 100%;
+}
+
+/* LEVEL CARD (se estira al ancho) */
+
+.level-card-wide {
+    width: 100%;
+    background: rgba(10, 10, 30, 0.95);
+    border-radius: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(124, 92, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.level-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #b3a4ff;
+}
+
+.level-number {
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+
+.level-points {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #e3e3ff;
+}
+
+.level-progress {
+    margin-top: 4px;
+}
+
+.level-progress-bar {
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.level-progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7c5cff, #ff7ac7);
+}
+
+.level-progress-label {
+    font-size: 0.8rem;
+    color: #cfcfff;
+}
+
+.level-streak {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.streak-label {
+    display: block;
+    font-size: 0.75rem;
+    color: #a9a9ff;
+}
+
+.streak-value {
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+/* RESUMEN EN GRID */
+
+.dashboard-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.summary-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.summary-card-muted {
+    opacity: 0.6;
+}
+
+.summary-card h2 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+}
+
+.summary-main {
+    margin: 0 0 4px;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.section-header h2 {
+    margin-bottom: 8px;
+}
+
+.dashboard-actions {
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+}
+
+/* --------- CREATE HABIT PAGE --------- */
+
+.create-habit-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.create-habit-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+    gap: 24px;
+    align-items: flex-start;
+}
+
+.create-habit-form-section,
+.create-habit-preview-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 18px;
+    padding: 16px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.habit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    background: rgba(10, 10, 30, 0.9);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 8px 10px;
+    color: #f7f7ff;
+    font-size: 0.9rem;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #7c5cff;
+    box-shadow: 0 0 0 1px rgba(124, 92, 255, 0.4);
+}
+
+.form-textarea {
+    resize: vertical;
+}
+
+.form-help {
+    font-size: 0.8rem;
+    color: #a8a8ff;
+}
+
+.form-radio-group {
+    display: flex;
+    gap: 16px;
+    margin-top: 4px;
+}
+
+.form-radio {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.form-actions .primary-button[disabled] {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.create-habit-preview-section h2 {
+    margin-top: 0;
+}
+
+.preview-subtitle {
+    font-size: 0.85rem;
+    color: #c2c2ff;
+    margin-bottom: 10px;
+}
+
+.preview-extra {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #d0d0ff;
+}
+
+/* Create habit responsive */
+@media (max-width: 900px) {
+    .create-habit-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* --------- HABIT DETAIL PAGE --------- */
+
+.habit-detail-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.habit-detail-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.habit-detail-status {
+    font-size: 0.9rem;
+    color: #c7c7ff;
+}
+
+.habit-detail-header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.habit-detail-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.habit-detail-main,
+.habit-detail-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.habit-detail-block {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.habit-detail-block h2 {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 1rem;
+}
+
+.habit-detail-main-text {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: #ddddff;
+}
+
+.habit-detail-description {
+    font-size: 0.9rem;
+    color: #d5d5ff;
+}
+
+.habit-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.habit-stat-card {
+    background: radial-gradient(circle at top left, #1c1440, #050816);
+    border-radius: 12px;
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.habit-stat-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #b3b3ff;
+    margin-bottom: 2px;
+}
+
+.habit-stat-value {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.habit-history-list {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.habit-history-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+}
+
+.habit-history-date {
+    color: #e3e3ff;
+}
+
+.habit-history-status {
+    font-size: 0.85rem;
+    border-radius: 999px;
+    padding: 2px 8px;
+}
+
+.habit-history-status-completed {
+    background: rgba(46, 204, 113, 0.2);
+}
+
+.habit-history-status-skipped {
+    background: rgba(231, 76, 60, 0.2);
+}
+
+.habit-history-status-pending {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.habit-detail-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.habit-category-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: rgba(124, 92, 255, 0.18);
+    border: 1px solid rgba(124, 92, 255, 0.7);
+    color: #e3ddff;
+    margin-bottom: 6px;
+}
+
+/* Detail responsive */
+@media (max-width: 900px) {
+    .habit-detail-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .habit-detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .habit-detail-header-actions {
+        margin-top: 8px;
+    }
+}
+
+/* --------- RESPONSIVE GENERAL --------- */
+
+@media (max-width: 768px) {
+    .welcome-screen {
+        margin-top: 16px;
+    }
+
+    .dashboard-hero {
+        padding: 16px;
+    }
+    
+}
+
+/* ===== Completed habit UX (Dashboard "Habits of today") ===== */
+
+.habit-card--completed {
+    opacity: 0.55;
+    filter: grayscale(0.25);
+}
+
+.habit-title--completed {
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(255, 255, 255, 0.55);
+}
+
+.btn-complete--disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
 }
