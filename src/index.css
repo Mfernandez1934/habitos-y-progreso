@@ -735,3 +735,211 @@ body {
     opacity: 0.55;
     cursor: not-allowed;
 }
+
+/* --------- ACTIVE HABITS DASHBOARD (Phases + Goals) --------- */
+
+.active-habits-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.active-habits-hero {
+    padding: 18px 18px 6px;
+    text-align: center;
+}
+
+.active-habits-title {
+    margin: 6px 0 6px;
+    font-size: 2.4rem;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.active-habits-subtitle {
+    margin: 0 auto;
+    max-width: 760px;
+    color: #c7c7ff;
+    font-size: 0.95rem;
+}
+
+.phase-tabs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    padding: 8px 6px 2px;
+}
+
+.phase-tab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #cfcfff;
+    cursor: pointer;
+    transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease,
+        background 120ms ease;
+    text-align: left;
+}
+
+.phase-tab:hover {
+    transform: translateY(-1px);
+    border-color: rgba(124, 92, 255, 0.55);
+}
+
+.phase-tab__label {
+    font-weight: 650;
+    font-size: 0.95rem;
+    color: #f7f7ff;
+}
+
+.phase-tab__hint {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #cfcfff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.phase-tab--selected {
+    border-color: rgba(124, 92, 255, 0.75);
+    box-shadow: 0 0 0 1px rgba(124, 92, 255, 0.25);
+    background: radial-gradient(circle at top left, rgba(124, 92, 255, 0.22), rgba(5, 8, 22, 0.9));
+}
+
+/* “Current” phase highlight (hardcoded for now) */
+.phase-tab--current {
+    border-color: rgba(255, 122, 199, 0.7);
+    box-shadow: 0 0 0 1px rgba(255, 122, 199, 0.22), 0 0 22px rgba(124, 92, 255, 0.18);
+}
+
+.active-habits-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 6px;
+}
+
+.goals-section {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 14px 14px 16px;
+    position: relative;
+}
+
+/* subtle divider glow at the top */
+.goals-section::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(124, 92, 255, 0.55), transparent);
+    opacity: 0.6;
+}
+
+.goals-section__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 6px 10px;
+}
+
+.goals-section__title {
+    margin: 6px 0 2px;
+    font-size: 1.2rem;
+    letter-spacing: -0.01em;
+}
+
+.goals-section__subtitle {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #bdbdff;
+}
+
+.goals-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    padding: 4px 6px 2px;
+}
+
+.goal-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-height: 84px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.goal-card__title {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.25;
+}
+
+.goal-card__meta {
+    margin: 8px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.goal-card__tag {
+    font-size: 0.78rem;
+    color: #e3ddff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(124, 92, 255, 0.16);
+    border: 1px solid rgba(124, 92, 255, 0.55);
+}
+
+.goal-card__target {
+    font-size: 0.78rem;
+    color: #cfcfff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.goal-card--completed {
+    opacity: 0.6;
+    filter: grayscale(0.25);
+}
+
+@media (max-width: 1024px) {
+    .phase-tabs {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .goals-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .phase-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-card {
+        min-height: unset;
+    }
+
+    .goals-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
