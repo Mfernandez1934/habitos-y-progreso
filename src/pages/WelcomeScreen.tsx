@@ -35,7 +35,10 @@ const WelcomeScreen: React.FC = () => {
 
             <section className="welcome-buttons">
                 <Link to="/dashboard" className="big-button primary">
-                    Empezar mi día
+                    Seguir camino para ser una bestia
+                </Link>
+                <Link to="/biblioteca" className="big-button">
+                    Biblioteca de hábitos
                 </Link>
                 <Link to="/habitos-activos" className="big-button">
                     Hábitos activos

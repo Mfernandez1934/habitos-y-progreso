@@ -1,44 +1,29 @@
 // src/pages/HomeDashboard.tsx
-import React from "react";
+import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import HabitCard from "../components/HabitCard";
 import type { Habit } from "../types/Habit";
-
-const mockTodayHabits: Habit[] = [
-    {
-        id: "1",
-        name: "Estudiar 45 minutos",
-        category: "Estudio",
-        description: "Bloque de estudio profundo sin celular.",
-        isActive: true,
-        todayStatus: "pending",
-        todayProgress: 20,
-        todayTarget: 45,
-    },
-    {
-        id: "2",
-        name: "Ir al gimnasio",
-        category: "Deporte",
-        isActive: true,
-        todayStatus: "completed",
-        todayProgress: 1,
-        todayTarget: 1,
-    },
-    {
-        id: "3",
-        name: "Leer 15 minutos",
-        category: "Crecimiento personal",
-        isActive: true,
-        todayStatus: "pending",
-        todayProgress: 0,
-        todayTarget: 15,
-    },
-];
+import { HABIT_CATALOG } from "../data/habitCatalog";
 
 const HomeDashboard: React.FC = () => {
-    const level = 4;
-    const currentPoints = 1320;
-    const pointsToNextLevel = 500;
+    // Sincronización con la Biblioteca de Hábitos (localStorage)
+    const activeHabits: Habit[] = useMemo(() => {
+        const savedIds: string[] = JSON.parse(localStorage.getItem("activeHabitIds") || "[]");
+
+        return HABIT_CATALOG
+            .filter(def => savedIds.includes(def.id))
+            .map(def => ({
+                ...def,
+                name: def.title, // 'name' es requerido por HabitCard
+                isActive: true,
+                todayStatus: "pending",
+                todayProgress: 0,
+                todayTarget: 1 // Placeholder hasta implementar metas por fase
+            }));
+    }, []);
+
+    const consistency = 0.85; // 85% de cumplimiento
+    const level = Math.min(99, Math.max(0, Math.round(consistency * 99)));
 
     const currentStreak = 12;
     const bestStreak = 21;
@@ -49,117 +34,84 @@ const HomeDashboard: React.FC = () => {
         month: "long",
     });
 
-    const pendingHabits = mockTodayHabits.filter(
+    const pendingHabits = activeHabits.filter(
         (h) => (h.todayStatus ?? "pending") !== "completed"
     );
-    const completedHabits = mockTodayHabits.filter(
+    const completedHabits = activeHabits.filter(
         (h) => (h.todayStatus ?? "pending") === "completed"
     );
 
     const todayCompleted = completedHabits.length;
-    const todayPending = pendingHabits.length;
-
-    const pointsEarnedTowardNext = 240; // mock
-    const progressToNextLevelPercent = Math.min(
-        100,
-        Math.round((pointsEarnedTowardNext / pointsToNextLevel) * 100)
-    );
+    const totalToday = activeHabits.length;
+    const dailyProgressPercent = totalToday > 0 ? Math.round((todayCompleted / totalToday) * 100) : 0;
 
     return (
         <div className="dashboard">
-            {/* HERO */}
+            {/* HERO: Panel de Nivel Global */}
             <section className="dashboard-hero">
                 <div className="dashboard-hero-right">
                     <div className="level-card-wrapper-wide">
                         <p className="dashboard-date">{today}</p>
 
                         <div className="level-card-wide">
-                            <div className="level-header">
-                                <span className="level-label">Nivel actual</span>
-                                <span className="level-number">{level}</span>
-                            </div>
-
-                            <p className="level-points">{currentPoints} puntos totales</p>
-
-                            <div className="level-progress">
-                                <div className="level-progress-bar">
-                                    <div
-                                        className="level-progress-bar-fill"
-                                        style={{ width: `${progressToNextLevelPercent}%` }}
-                                    />
-                                </div>
-                                <span className="level-progress-label">
-                                    {pointsEarnedTowardNext} / {pointsToNextLevel} puntos al siguiente nivel
-                                </span>
-                            </div>
-
-                            <div className="level-streak">
-                                <div>
-                                    <span className="streak-label">Racha actual</span>
-                                    <span className="streak-value">{currentStreak} días</span>
-                                </div>
-                                <div>
-                                    <span className="streak-label">Mejor racha</span>
-                                    <span className="streak-value">{bestStreak} días</span>
-                                </div>
+                            <div className="level-header" style={{ justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                                <span className="level-label">Nivel Global</span>
+                                <span className="level-number" style={{ fontSize: '4rem' }}>{level}</span>
+                                <span className="level-label" style={{ marginTop: '4px' }}>Basado en tu consistencia de los últimos 28 días</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* RESUMEN EN CARDS */}
+            {/* RESUMEN ESTADÍSTICO */}
             <section className="dashboard-summary-grid">
                 <div className="summary-card">
-                    <h2>Hábitos de hoy</h2>
-                    <p className="summary-main">
-                        {mockTodayHabits.length} hábitos activos hoy
-                    </p>
-                    <p>
-                        Completados: {todayCompleted} · Pendientes: {todayPending}
-                    </p>
+                    <h3 className="card-title-small">Hábitos de hoy</h3>
+                    <p className="card-number-big">{totalToday}</p>
+                    <p className="card-text-secondary">hábitos activos hoy</p>
                 </div>
 
                 <div className="summary-card">
-                    <h2>Progreso del día</h2>
-                    <p className="summary-main">
-                        {todayCompleted}/{mockTodayHabits.length} hábitos completados
-                    </p>
-                    <p>
-                        Cada hábito completado hoy suma puntos a tu nivel general.
-                    </p>
+                    <h3 className="card-title-small">Progreso del día</h3>
+                    <p className="card-number-big">{todayCompleted}/{totalToday}</p>
+                    <p className="card-text-secondary">{dailyProgressPercent}% completado</p>
                 </div>
 
                 <div className="summary-card">
-                    <h2>Racha</h2>
-                    <p className="summary-main">{currentStreak} días seguidos</p>
-                    <p>Tu mejor racha es de {bestStreak} días. Vamos por más.</p>
-                </div>
-
-                <div className="summary-card summary-card-muted">
-                    <h2>Objetivos deportivos</h2>
-                    <p className="summary-main">Próximamente</p>
-                    <p>Integrá tu salto vertical, tiempos y más con tus hábitos.</p>
+                    <h3 className="card-title-small">Racha</h3>
+                    <p className="card-number-big">{currentStreak}</p>
+                    <p className="card-text-secondary">días seguidos</p>
+                    {bestStreak && <p className="card-text-tertiary">Mejor: {bestStreak}</p>}
                 </div>
             </section>
 
-            {/* HÁBITOS DE HOY (pendientes primero, completados abajo) */}
+            {/* HÁBITOS DE HOY */}
             <section className="dashboard-habits-today">
                 <div className="section-header">
                     <h2>Hábitos de hoy</h2>
                 </div>
 
-                <div className="habits-list">
-                    {pendingHabits.map((habit) => (
-                        <HabitCard
-                            key={habit.id}
-                            habit={habit}
-                            showTodayStatus
-                            onCompleteClick={() => console.log("Completar", habit.id)}
-                            onSkipClick={() => console.log("No lo hice", habit.id)}
-                        />
-                    ))}
-                </div>
+                {activeHabits.length === 0 ? (
+                    <div className="welcome-message-bar" style={{ textAlign: 'center', padding: '20px' }}>
+                        <p>No tenés hábitos activos para hoy.</p>
+                        <Link to="/biblioteca" className="primary-button" style={{ marginTop: '12px' }}>
+                            Ir a la Biblioteca
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="habits-list">
+                        {pendingHabits.map((habit) => (
+                            <HabitCard
+                                key={habit.id}
+                                habit={habit}
+                                showTodayStatus
+                                onCompleteClick={() => console.log("Completar", habit.id)}
+                                onSkipClick={() => console.log("No lo hice", habit.id)}
+                            />
+                        ))}
+                    </div>
+                )}
 
                 {completedHabits.length > 0 && (
                     <>
@@ -183,10 +135,10 @@ const HomeDashboard: React.FC = () => {
 
                 <div className="dashboard-actions">
                     <Link to="/habitos-activos" className="primary-button">
-                        Ver todos los hábitos activos
+                        Ver objetivos de fase
                     </Link>
-                    <Link to="/nuevo-habito" className="secondary-link">
-                        Crear nuevo hábito
+                    <Link to="/biblioteca" className="secondary-link">
+                        Biblioteca de hábitos
                     </Link>
                 </div>
             </section>

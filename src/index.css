@@ -389,30 +389,62 @@ body {
 
 .dashboard-summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .summary-card {
     background: rgba(255, 255, 255, 0.03);
     border-radius: 16px;
-    padding: 14px 16px;
+    padding: 24px 16px;
     border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 160px; /* Asegura alto uniforme */
 }
 
-.summary-card-muted {
-    opacity: 0.6;
+.card-title-small {
+    margin: 0;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #a4a4ff;
+    font-weight: 500;
 }
 
-.summary-card h2 {
-    margin: 0 0 6px;
-    font-size: 1rem;
+.card-number-big {
+    margin: 12px 0;
+    font-size: 2.8rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #ffffff;
 }
 
-.summary-main {
-    margin: 0 0 4px;
-    font-size: 1.05rem;
-    font-weight: 600;
+.card-text-secondary {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #c7c7ff;
+}
+
+.card-text-tertiary {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #7c7cff;
+    opacity: 0.8;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+    .dashboard-summary-grid {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+    }
 }
 
 .section-header h2 {
@@ -942,4 +974,3 @@ body {
         grid-template-columns: 1fr;
     }
 }
-

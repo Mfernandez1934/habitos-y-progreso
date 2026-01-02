@@ -5,6 +5,7 @@ import WelcomeScreen from "./pages/WelcomeScreen";
 import HomeDashboard from "./pages/HomeDashboard";
 import ActiveHabitsPage from "./pages/ActiveHabitsPage";
 import HabitDetailPage from "./pages/HabitDetailPage"; // NUEVO
+import HabitLibrary from "./pages/HabitLibrary";
 import CreateHabitPage from "./pages/CreateHabitPage"; // Added for the /nuevo-habito route
 
 const App: React.FC = () => {
@@ -34,6 +35,7 @@ const App: React.FC = () => {
                     <Route path="/dashboard" element={<HomeDashboard />} />
                     <Route path="/habitos-activos" element={<ActiveHabitsPage />} />
                     <Route path="/habitos/:id" element={<HabitDetailPage />} /> {/* NUEVO */}
+                    <Route path="/biblioteca" element={<HabitLibrary />} /> {/* NUEVO */}
                     <Route path="/nuevo-habito" element={<CreateHabitPage />} />
                     <Route
                         path="/configuracion"
