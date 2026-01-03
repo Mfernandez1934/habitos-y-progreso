@@ -950,6 +950,71 @@ body {
     opacity: 0.6;
     filter: grayscale(0.25);
 }
+/* --------- HABIT LIBRARY --------- */
+.library-content--centered {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.library-category-section {
+    width: 100%;
+}
+
+.library-category-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 18px 20px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+
+.library-category-header {
+    margin-bottom: 12px;
+}
+
+.library-category-title {
+    margin: 0;
+    font-size: 1.1rem;
+    letter-spacing: -0.01em;
+}
+
+/* grid de hábitos */
+.library-habits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    padding: 4px 0;
+}
+
+.library-habit-card {
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    height: 100%;
+}
+
+.library-habit-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f7f7ff;
+}
+
+@media (max-width: 1024px) {
+    .library-habits-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .library-habits-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 
 @media (max-width: 1024px) {
     .phase-tabs {
@@ -973,4 +1038,5 @@ body {
     .goals-grid {
         grid-template-columns: 1fr;
     }
+
 }

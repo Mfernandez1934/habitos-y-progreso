@@ -1,62 +1,53 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useMemo } from "react";
 import { HABIT_CATALOG } from "../data/habitCatalog";
+import type { HabitDefinition, Habit } from "../types/Habit";
 
 const HabitLibrary: React.FC = () => {
-    const [activeIds, setActiveIds] = useState<string[]>(() => {
-        const saved = localStorage.getItem("activeHabitIds");
-        return saved ? JSON.parse(saved) : [];
-    });
-
-    useEffect(() => {
-        localStorage.setItem("activeHabitIds", JSON.stringify(activeIds));
-    }, [activeIds]);
-
-    const toggleHabit = (id: string) => {
-        setActiveIds(prev =>
-            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-        );
-    };
-
-    const categories = [
-        "Sueño", "Entrenamiento y movimiento", "Nutrición",
-        "Uso de estímulos", "Energía", "Mente", "Cierre y organización"
-    ];
+    const groupedCatalog = useMemo(() => {
+        return HABIT_CATALOG.reduce<Record<string, HabitDefinition[]>>((acc, habit) => {
+            acc[habit.category] = acc[habit.category] || [];
+            acc[habit.category].push(habit);
+            return acc;
+        }, {});
+    }, []);
 
     return (
         <div className="habit-library-page">
-            <header className="section-header">
-                <h1>Biblioteca de hábitos</h1>
-                <p>Activá los hábitos que vas a seguir en esta fase.</p>
+            <header className="library-header library-header--centered">
+                <p className="library-kicker">Biblioteca</p>
+                <h1 className="library-title">Biblioteca de Hábitos</h1>
+                <p className="library-subtitle">
+                    Explora los hábitos disponibles agrupados por categoría.
+                </p>
             </header>
 
-            <div className="library-sections">
-                {categories.map(cat => (
-                    <section key={cat} className="library-category-group" style={{ marginBottom: '32px' }}>
-                        <h2 style={{ fontSize: '1.2rem', color: '#7c5cff', marginBottom: '16px' }}>{cat}</h2>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                            {HABIT_CATALOG.filter(h => h.category === cat).map(habit => {
-                                const isActive = activeIds.includes(habit.id);
-                                return (
-                                    <div key={habit.id} className="habit-card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px' }}>
-                                        <h3 style={{ margin: 0, fontSize: '1rem' }}>{habit.title}</h3>
-                                        <button
-                                            onClick={() => toggleHabit(habit.id)}
-                                            className={`btn ${isActive ? 'btn-skip' : 'btn-complete'}`}
-                                            style={{ minWidth: '100px' }}
-                                        >
-                                            {isActive ? "Desactivar" : "Activar"}
-                                        </button>
-                                    </div>
-                                );
-                            })}
+            <main className="library-content library-content--centered">
+                {Object.entries(groupedCatalog).map(([category, items]) => (
+                    <section key={category} className="library-category-section">
+                        <div className="library-category-card">
+                            <div className="library-category-header">
+                                <h2 className="library-category-title">{category}</h2>
+                            </div>
+
+                            <div className="library-habits-grid">
+                                {items.map((habitDef) => {
+                                    const previewHabit: Habit = {
+                                        ...habitDef,
+                                        name: habitDef.title,
+                                        isActive: false,
+                                    };
+
+                                    return (
+                                        <div key={habitDef.id} className="library-habit-card">
+                                            <span className="library-habit-name">{previewHabit.name}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </section>
                 ))}
-            </div>
-            <div style={{ marginTop: '20px' }}>
-                <Link to="/" className="secondary-link">← Volver a inicio</Link>
-            </div>
+            </main>
         </div>
     );
 };
